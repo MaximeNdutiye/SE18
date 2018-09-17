@@ -24,9 +24,6 @@ GET
 /orders/:id => get specific order details
 /products/:id => get specific product details
 
-/lineitems => ERR
-/lineitems/:id => get specific line item
-
 
 | Resource | GET                          | POST              | PUT                   | DELETE        |
 |----------|------------------------------|-------------------|-----------------------|---------------|
@@ -44,3 +41,5 @@ Line items refer to any service or product added to an order, along with any qua
 
 [{"name": "one", "value": "10", "lineItems": [{"name": "1", "value": "10"},{"name": "2", "value": "10"}]},
 {"name": "two", "value": "10", "lineItems": [{"name": "3", "value": "10"},{"name": "4", "value": "10"}]}]
+
+mongo "mongodb+srv://cluster0-9peje.mongodb.net/test" --username dbuser

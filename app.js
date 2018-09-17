@@ -4,7 +4,6 @@
 */
 const express = require('express');
 const app = express();
-const db = require('./db');
 
 const ShopController = require('./shop/ShopController');
 const ProductController = require('./shop/ProductController');

@@ -1,26 +1,27 @@
-var mongoose = require('mongoose');  
+const mongoose = require('mongoose');  
+const Schema = mongoose.Schema;
 
-var LineItemSchema = new mongoose.Schema({  
+const LineItemSchema = new Schema({  
   name: String,
   value: Number
 });
 
-var OrderSchema = new mongoose.Schema({  
-  lineItems: [LineItemSchema],
+const OrderSchema = new Schema({  
+  lineItems: [{ type: Schema.ObjectId, ref: 'LineItem' }],
   value: Number
 });
 
-var ProductSchema = new mongoose.Schema({
+const ProductSchema = new Schema({
   name: String,
-  lineItems: [LineItemSchema],
+  lineItems: [{ type: Schema.ObjectId, ref: 'LineItem' }],
   value: Number
 });
 
-var ShopSchema = new mongoose.Schema({  
+const ShopSchema = new Schema({  
   name: String,
   owner: String,
-  products: [ProductSchema],
-  orders: [OrderSchema],
+  products: [{ type: Schema.ObjectId, ref: 'Product' }],
+  orders: [{ type: Schema.ObjectId, ref: 'Order' }],
   created: { 
     type: Date,
     default: Date.now
