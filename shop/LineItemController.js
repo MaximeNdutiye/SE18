@@ -74,7 +74,25 @@ function updateLineItemAttributes(req, lineItem){
     }
     
     if (req.body.value) {
-        lineItem.name = req.body.name;
+        Schema.Product.find({
+            'lineItems': lineItem._id
+        }, function (_, products) {
+            products.forEach(product => {
+                product.value += (parseFloat(req.body.value, 10) - parseFloat(lineItem.value, 10));
+                lineItem.value = req.body.value;
+                product.save();
+            });
+        });
+        
+        Schema.Order.find({
+            'lineItems': lineItem._id
+        }, function (_, orders) {
+            orders.forEach(order => {
+                order.value += (parseFloat(req.body.value, 10) - parseFloat(lineItem.value, 10));
+                lineItem.value = req.body.value;
+                order.save();
+            });
+        });
     }
 }
 

@@ -1,45 +1,48 @@
-### MongoDB 
-https://docs.atlas.mongodb.com/driver-connection/#node-js-driver-example
-https://hackernoon.com/restful-api-design-with-node-js-26ccf66eab09
-https://www.w3schools.com/nodejs/nodejs_mongodb_create_db.asp
-https://mongoosejs.com/docs/subdocs.html
+# SE18
+Shops API built with NodeJs, Express, and Mongo
 
-### Deploying to AWS EKS
-https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html
-https://aws.amazon.com/blogs/aws/amazon-eks-now-generally-available/
+### Implemented API methods
 
-### APIS
-https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
+| Resource                | GET                     | POST          | PUT                     | DELETE           |
+|-------------------------|-------------------------|---------------|-------------------------|------------------|
+| /shops                  | get all shops           | create a shop | add & update properties | -                |
+| /shops/:id              | Get details for a shop  | -             | Update shop 1 details   | Delete a shop    |
+| /shops/:id/products     | get products for a shop | -             | add a product to a shop | -                |
+| /products/:id           | get a product           | -             | add a lineitem          | delete a product |
+| /products/:id/lineitems | get product lineitems   | -             | -                       | -                |
+| /orders/:id             | get a product           | -             | add a lineitem          | delete a product |
+| /order/:id/lineitems    | get orderlineitems      | -             | -                       | -                |
+| /lineitems/:id          | line item details       | -             | update properties       | delete item      |
+|                         |                         |               |                         |                  |
 
-Question 1: Please design a web API that models the following simple relationship: 
+### Example calls
+Create a new store with products that have line items.
+`POST` to `\shops` with
 
-GET 
+Request Body:
 
-/shops => all shops
-/shops/:id => specific shop details
+```
+{
+    "name": "Al Harrington's Wacky Waving Inflatable Arm-Flailing Tubeman Emporium and Warehouse",
+    "owener": "Al Harrington",
+    "products": [
+    {
+        "name": "Wacky Waving Inflatable Arm-Flailing Tubeman",
+        "lineItems": [
+        {
+            "name": "A Blue One",
+            "value": "100"
+        }
+        ]
+    },
+    {
+        "name": "Intergalactic Proton-Powered Electrical Tentacled Advertising Droids",
+    }
+    ],
+    "orders": []
+}
+```
+access db
+`mongo "mongodb+srv://cluster0-9peje.mongodb.net/test" --username dbuser`
 
-/orders => ERR
-/products => ERR
-
-/orders/:id => get specific order details
-/products/:id => get specific product details
-
-
-| Resource | GET                          | POST              | PUT                   | DELETE        |
-|----------|------------------------------|-------------------|-----------------------|---------------|
-| /shops   | get all shops                | create a new shop | Bulk create shops     | ERR           |
-| /shops/1 | Get details for shop w/ id=1 | ERR               | Update shop 1 details | Delete shop 1 |
-|          |                              |                   |                       |               |
-
-Shops have many Products 
-Shops have many Orders
-Products have many Line Items
-Orders have many Line Items
-
-Line items refer to any service or product added to an order, along with any quantities, rates, and prices that pertain to them.
-
-
-[{"name": "one", "value": "10", "lineItems": [{"name": "1", "value": "10"},{"name": "2", "value": "10"}]},
-{"name": "two", "value": "10", "lineItems": [{"name": "3", "value": "10"},{"name": "4", "value": "10"}]}]
-
-mongo "mongodb+srv://cluster0-9peje.mongodb.net/test" --username dbuser
+Built with :purple_heart: by Maxime

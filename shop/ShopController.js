@@ -21,14 +21,7 @@ router.post('/', function (req, res) {
 });
 
 router.get('/', function (req, res) {
-    Schema.Shop.find({})
-    .exec((err, data) => {
-        console.log(err);
-        console.log(data);
-        res.status(200).send("oook");
-    });
-
-   /* Schema.Shop
+    Schema.Shop
         .find({})
         .populate([
             {
@@ -49,7 +42,7 @@ router.get('/', function (req, res) {
             if (err) return res.status(500).send({err: err});
             console.log('resufdsafds');
             res.status(200).send({stores: stores});
-        });*/
+        });
 });
 
 router.get('/:id', function (req, res) {
