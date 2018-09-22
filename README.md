@@ -1,7 +1,20 @@
 # SE18
 Shops API built with NodeJs, Express, and Mongo
 
+### GDP Deployment Endpoint
+I have a live version of this api over at
+`http://35.203.27.79:3000`
+
+The application can also be run locally using
+
+```
+docker build -t maxime-shopify-image .
+
+docker run --name maxime-shopify-api -p 3000:3000 maxime-shopify-image
+```
+
 ### Implemented API methods
+Here are the methods that are implemented for the API
 
 | Resource                | GET                     | POST          | PUT                     | DELETE           |
 |-------------------------|-------------------------|---------------|-------------------------|------------------|
@@ -17,6 +30,7 @@ Shops API built with NodeJs, Express, and Mongo
 
 ### Example calls
 Create a new store with products that have line items.
+
 `POST` to `\shops` with
 
 Request Body:
@@ -36,13 +50,64 @@ Request Body:
         ]
     },
     {
-        "name": "Intergalactic Proton-Powered Electrical Tentacled Advertising Droids",
+        "name": "Intergalactic Proton-Powered Electrical Tentacled Advertising Droids"
     }
     ],
     "orders": []
 }
 ```
-access db
-`mongo "mongodb+srv://cluster0-9peje.mongodb.net/test" --username dbuser`
+
+### Deployment
+
+Set default project id
+
+```
+gcloud config set project {PROJECT_ID}
+``` 
+
+Create a cluster
+
+```
+gcloud container clusters create shopify-app-cluster --zone northamerica-northeast1-a --machine-type f1-micro
+```
+
+Build image from docker file
+
+```
+docker build -t gcr.io/{PROJECT_ID}/shopify-image:v1 .
+``` 
+
+Push the image to GCR
+```
+gcloud docker -- push gcr.io/{PROJECT_ID}/shopify-image:v1
+```
+
+Deploy app
+```
+kubectl create -f deployment.yml --save-config
+```
+
+Expose the app to the internet
+
+```
+kubectl expose deployment shopify-deployment --type="LoadBalance"
+```
+
+Get the external ip of the deployment
+
+```
+kubectl get services
+```
+
+Clean up deployment
+
+```
+$ kubectl delete service/kubernetes
+$ kubectl delete deployment/shopify-deployment
+$ gcloud container clusters delete shopify-app-cluster --zone northamerica-northeast1-a
+```
+
+Access the mongo db from the command line
+`mongo "mongodb+srv://<cluster-name>.mongodb.net/<dbname>" --username <user>`
 
 Built with :purple_heart: by Maxime

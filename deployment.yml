@@ -1,0 +1,16 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: shopify-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: shopify-app
+    spec:     # pod spec                  
+      containers: 
+      - name: shopify-app
+        image: gcr.io/gcp-playground-210920/shopify-image:v1
+        ports:
+        - containerPort: 3000
