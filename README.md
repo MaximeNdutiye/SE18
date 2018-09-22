@@ -108,6 +108,7 @@ $ gcloud container clusters delete shopify-app-cluster --zone northamerica-north
 ```
 
 Access the mongo db from the command line
+
 `mongo "mongodb+srv://<cluster-name>.mongodb.net/<dbname>" --username <user>`
 
 Built with :purple_heart: by Maxime

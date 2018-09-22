@@ -24,7 +24,11 @@ router.put('/:id', function (req, res) {
     Schema.LineItem.findById(req.params.id, function (err, lineItem) {
         if (err) return res.status(500).send({err: err});
         if (!lineItem) return res.status(200).send({err: `lineItem ${req.params.id} not found`});
-        updateLineItemAttributes(req, lineItem);
+        let updateLineItemMsg = updateLineItemAttributes(req, res, lineItem);
+        
+        if(updateLineItemMsg){
+            return res.status(500).send({msg: updateLineItemMsg});
+        }
 
         lineItem.save(function (err, updatedLineItem) {
             if (err) return res.status(500).send({err: err});
@@ -68,17 +72,23 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-function updateLineItemAttributes(req, lineItem){
+function updateLineItemAttributes(req, res, lineItem){
     if (req.body.name) {
         lineItem.name = req.body.name;
     }
     
     if (req.body.value) {
+        let newValue = parseFloat(req.body.value, 10);
+    
+        if(isNaN(newValue)){
+            return 'There was a problem parsing value into a float';
+        }
+        
         Schema.Product.find({
             'lineItems': lineItem._id
         }, function (_, products) {
             products.forEach(product => {
-                product.value += (parseFloat(req.body.value, 10) - parseFloat(lineItem.value, 10));
+                product.value += (newValue - parseFloat(lineItem.value, 10));
                 lineItem.value = req.body.value;
                 product.save();
             });
@@ -88,7 +98,7 @@ function updateLineItemAttributes(req, lineItem){
             'lineItems': lineItem._id
         }, function (_, orders) {
             orders.forEach(order => {
-                order.value += (parseFloat(req.body.value, 10) - parseFloat(lineItem.value, 10));
+                order.value += (newValue - parseFloat(lineItem.value, 10));
                 lineItem.value = req.body.value;
                 order.save();
             });

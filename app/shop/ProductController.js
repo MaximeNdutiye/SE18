@@ -53,7 +53,11 @@ router.put('/:id', function (req, res) {
     Schema.Product.findById(req.params.id, function (err, product) {
         if (err) return res.status(500).send({err: err});
         if (!product) return res.status(500).send({err: 'product ' + req.params.id + ' not found'});
-        updateProductAttributes(req, product);
+        let updateProductsMsg = updateProductAttributes(req, res, product);
+
+        if(updateProductsMsg){
+            return res.status(500).send({msg: updateProductsMsg});
+        }
 
         product.save(function (err, updatedProduct) {
             if (err) return res.status(500).send({err: err});
@@ -63,7 +67,6 @@ router.put('/:id', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-
     Schema.Product.findByIdAndRemove(req.params.id, function (err, removedProduct) {
         if (err) return res.status(500).send({err: err});
         if (!removedProduct) return res.status(500).send({err: 'product ' + req.params.id + ' not found'});
@@ -90,8 +93,17 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-function updateProductAttributes(req, product){
-    let lineItems = req.body.lineItems ? JSON.parse(req.body.lineItems) : null;
+function updateProductAttributes(req, res, product){
+    let lineItems = []; 
+    
+    try {
+        lineItems = req.body.lineItems ? JSON.parse(req.body.lineItems) : null;
+        if(!Array.isArray(lineItems)){
+            return 'lineItems should be an array of objects';
+        }
+    }catch(e){
+        return 'There was a problem parsing the json in lineItems';
+    }
 
     if (req.body.name) {
         product.name = req.body.name;
@@ -100,10 +112,15 @@ function updateProductAttributes(req, product){
     if (lineItems) {
         lineItems.forEach(lineItem => {
             let newLineItem = new Schema.LineItem(lineItem);
+            let newValue = parseFloat(lineItem.value, 10);
+    
+            if(isNaN(newValue)){
+                return 'There was a problem parsing value into a float';
+            }
+
             product.lineItems.push(newLineItem);
-            
             newLineItem.save();
-            product.value += parseFloat(lineItem.value, 10);
+            product.value += newValue;
         });
     }
 }

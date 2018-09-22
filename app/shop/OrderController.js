@@ -53,8 +53,11 @@ router.put('/:id', function (req, res) {
     Schema.Order.findById(req.params.id, function (err, order) {
         if (err) return res.status(500).send({err: err});
         if (!order) return res.status(500).send({err: `order  ${req.params.id} not found`});
-
-        updateOrderAttributes(req, order);
+        let updateOrdersMsg = updateOrderAttributes(req, res, order);
+        
+        if(updateOrdersMsg){
+            return res.status(500).send({msg: updateOrdersMsg});
+        }
 
         order.save(function (err, updatedOrder) {
             if (err) return res.status(500).send({err: err});
@@ -90,8 +93,17 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-function updateOrderAttributes(req, order){
-    let lineItems = req.body.lineItems ? JSON.parse(req.body.lineItems) : null;
+function updateOrderAttributes(req, res, order){
+     let lineItems = []; 
+    
+    try {
+        lineItems = req.body.lineItems ? JSON.parse(req.body.lineItems) : null;
+        if(!Array.isArray(lineItems)){
+            return 'lineItems should be an array of objects';
+        }
+    }catch(e){
+        return 'There was a problem parsing the json in lineItems';
+    }
 
     if (req.body.name) {
         order.name = req.body.name;
@@ -100,10 +112,17 @@ function updateOrderAttributes(req, order){
     if (lineItems) {
         lineItems.forEach(lineItem => {
             let newLineItem = new Schema.LineItem(lineItem);
+            let newValue = 0;
+
+            try{
+                newValue = parseFloat(lineItem.value, 10);
+            }catch(e){
+                return 'There was a problem parsing values into floats';
+            }
+
             order.lineItems.push(newLineItem);
-            
             newLineItem.save();
-            order.value += parseFloat(lineItem.value, 10);
+            order.value += newValue;
         });
     }
 }
