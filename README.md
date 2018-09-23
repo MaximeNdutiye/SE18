@@ -1,6 +1,8 @@
 # SE18
 Shops API built with NodeJs, Express, and Mongo
 
+[![Build Status](https://travis-ci.com/MaximeNdutiye/SE18.svg?branch=master)](https://travis-ci.com/MaximeNdutiye/SE18)
+
 ### GCP Deployment Endpoint
 I have a live version of the api deployed over at
 [http://35.203.27.79:3000/shops](http://35.203.27.79:3000/shops)
@@ -17,6 +19,12 @@ docker build -t maxime-shopify-image .
 
 docker run --name maxime-shopify-api -p 3000:3000 maxime-shopify-image
 ```
+
+### Continuous Integration
+I have set up a very simple [pipeline](https://travis-ci.com/MaximeNdutiye/SE18) to test 
+the public endpoint of the load balanced GCP deployment.
+So far it only checks to see that `/shops` returns a `200`
+
 
 ### Implemented API methods
 Here are the methods that are implemented for the API
