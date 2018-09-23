@@ -1,7 +1,8 @@
-var chai = require('chai')
+const chai = require('chai')
   , chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
+const expect = chai.expect;
 
 chai.request('http://35.203.27.79:3000')
   .get('/shops')
