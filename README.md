@@ -1,10 +1,14 @@
 # SE18
 Shops API built with NodeJs, Express, and Mongo
 
-### GDP Deployment Endpoint
-I have a live version of this api over at
-`http://35.203.27.79:3000`
+### GCP Deployment Endpoint
+I have a live version of the api deployed over at
+`http://35.203.27.79:3000/shops`
 
+### Example API Calls
+Some example API calls are available in my [postman collection](https://www.getpostman.com/collections/073d6f2ca5e3c9c23d01)
+
+### Local Testing and Development
 The application can also be run locally using
 
 ```
@@ -26,38 +30,9 @@ Here are the methods that are implemented for the API
 | /orders/:id             | get a product           | -             | add a lineitem          | delete a product |
 | /order/:id/lineitems    | get orderlineitems      | -             | -                       | -                |
 | /lineitems/:id          | line item details       | -             | update properties       | delete item      |
-|                         |                         |               |                         |                  |
 
-### Example calls
-Create a new store with products that have line items.
 
-`POST` to `\shops` with
-
-Request Body:
-
-```
-{
-    "name": "Al Harrington's Wacky Waving Inflatable Arm-Flailing Tubeman Emporium and Warehouse",
-    "owener": "Al Harrington",
-    "products": [
-    {
-        "name": "Wacky Waving Inflatable Arm-Flailing Tubeman",
-        "lineItems": [
-        {
-            "name": "A Blue One",
-            "value": "100"
-        }
-        ]
-    },
-    {
-        "name": "Intergalactic Proton-Powered Electrical Tentacled Advertising Droids"
-    }
-    ],
-    "orders": []
-}
-```
-
-### Deployment
+# Instruction for Deploying to GCP
 
 Set default project id
 
@@ -107,7 +82,7 @@ $ kubectl delete deployment/shopify-deployment
 $ gcloud container clusters delete shopify-app-cluster --zone northamerica-northeast1-a
 ```
 
-Access the mongo db from the command line
+### Access the mongo db from the command line
 
 `mongo "mongodb+srv://<cluster-name>.mongodb.net/<dbname>" --username <user>`
 
