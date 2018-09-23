@@ -6,7 +6,7 @@ I have a live version of the api deployed over at
 [http://35.203.27.79:3000/shops](http://35.203.27.79:3000/shops)
 
 ### Example API Calls
-Here is some [documention](https://www.getpostman.com/collections/073d6f2ca5e3c9c23d01)
+Here is some [documention](https://documenter.getpostman.com/view/5353897/RWaPskhE)
 created with Postman.
 
 ### Local Testing and Development
