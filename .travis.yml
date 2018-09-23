@@ -9,4 +9,4 @@ before_script:
     - npm install chai
 
 script:
-    - cd test && node test.js
+    - cd app/test && node test.js
