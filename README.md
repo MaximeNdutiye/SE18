@@ -12,13 +12,12 @@ Here is some [documention](https://documenter.getpostman.com/view/5353897/RWaPsk
 created with Postman.
 
 ### Local Testing and Development
-The application can also be run locally using
+The application can also be run locally using docker. Assuming `dotenv` is installed and has variables set
 
-```
-docker build -t maxime-shopify-image .
+`docker build -t maxime-shopify-image .`
 
-docker run --name maxime-shopify-api -p 3000:3000 maxime-shopify-image
-```
+`docker run --name maxime-shopify-api -p 3000:3000 maxime-shopify-image`
+
 
 ### Continuous Integration
 I have set up a very simple [pipeline](https://travis-ci.com/MaximeNdutiye/SE18) to test 
@@ -41,7 +40,7 @@ Here are the methods that are implemented for the API
 | /lineitems/:id          | line item details       | -             | update properties       | delete item      |
 
 
-# Instruction for Deploying to GCP
+## Instruction for Deploying to GCP
 
 Set default project id
 
