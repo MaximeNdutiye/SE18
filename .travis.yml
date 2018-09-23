@@ -1,6 +1,12 @@
 language: node_js
 node_js: 
   - "stable"
-cache:
-  directories:
-    - "node_modules"
+  
+notifications:
+  email: false
+
+before_script:
+    - npm install chai
+
+script:
+    - cd test && node test.js
