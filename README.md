@@ -3,10 +3,11 @@ Shops API built with NodeJs, Express, and Mongo
 
 ### GCP Deployment Endpoint
 I have a live version of the api deployed over at
-`http://35.203.27.79:3000/shops`
+[http://35.203.27.79:3000/shops](http://35.203.27.79:3000/shops)
 
 ### Example API Calls
-Some example API calls are available in my [postman collection](https://www.getpostman.com/collections/073d6f2ca5e3c9c23d01)
+Here is some [documention](https://www.getpostman.com/collections/073d6f2ca5e3c9c23d01)
+created with Postman.
 
 ### Local Testing and Development
 The application can also be run locally using
