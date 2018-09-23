@@ -1,7 +1,11 @@
-const expect = require('chai').expect
+var chai = require('chai')
+  , chaiHttp = require('chai-http');
 
-describe('test', () => {
-  it('should return a string', () => {
-    expect('ci with travis').to.equal('ci with travis');
+chai.use(chaiHttp);
+
+chai.request('http://35.203.27.79:3000')
+  .get('/shops')
+  .end(function (err, res) {
+    expect(err).to.be.null;
+    expect(res).to.have.status(200);
   });
-});

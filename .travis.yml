@@ -6,7 +6,7 @@ notifications:
   email: false
 
 before_script:
-    - npm install chai
+    - npm install chai chai-http
 
 script:
     - cd app/test && node test.js
